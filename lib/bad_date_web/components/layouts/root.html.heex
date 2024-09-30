@@ -4,55 +4,145 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title suffix=" · Phoenix Framework">
+    <.live_title suffix=" · BadDate">
       <%= assigns[:page_title] || "BadDate" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
-    </script>
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      header {
+        background-color: #ff6b81;
+        color: white;
+        padding: 10px 20px;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 2em;
+      }
+      nav ul {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        justify-content: flex-end;
+      }
+      nav ul li {
+        margin-left: 20px;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .hero {
+        background: url('/images/hero-background.jpg') no-repeat center center;
+        background-size: cover;
+        padding: 100px 20px;
+        text-align: center;
+        color: #333; /* Set text color to dark grey */
+      }
+      .hero h2 {
+        font-size: 3em;
+        margin: 0;
+        color: #333; /* Set the color for better visibility */
+      }
+      .hero p {
+        font-size: 1.2em;
+        color: #333; /* Set the color for better visibility */
+      }
+      .button {
+        background-color: #ff6b81;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-top: 20px;
+        display: inline-block;
+      }
+      .features {
+        display: flex;
+        justify-content: space-around;
+        padding: 40px 20px;
+      }
+      .feature {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 30%;
+      }
+      footer {
+        text-align: center;
+        padding: 10px;
+        background-color: #ff6b81;
+        color: white;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
   </head>
-  <body class="bg-white">
-    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
-      <%= if @current_user do %>
-        <li class="text-[0.8125rem] leading-6 text-zinc-900">
-          <%= @current_user.email %>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Settings
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_out"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log out
-          </.link>
-        </li>
+  <body>
+    <header>
+      <h1><a href="/" style="color: white; text-decoration: none;">BadDate</a></h1>
+      <nav>
+        <ul>
+          <%= if @current_user do %>
+            <li><%= @current_user.email %></li>
+            <li>
+              <.link href={~p"/users/settings"} class="hover:text-zinc-700">Settings</.link>
+            </li>
+            <li>
+              <.link href={~p"/users/log_out"} method="delete" class="hover:text-zinc-700">Log out</.link>
+            </li>
+          <% else %>
+            <li>
+              <.link href={~p"/users/register"} class="hover:text-zinc-700">Register</.link>
+            </li>
+            <li>
+              <.link href={~p"/users/log_in"} class="hover:text-zinc-700">Log in</.link>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <h2>Find Your Perfect Match!</h2>
+      <p>Connect with people and explore romantic possibilities.</p>
+      <%= if !@current_user do %>
+        <p>
+          <.link href={~p"/users/register"} class="button">Register</.link>
+          <.link href={~p"/users/log_in"} class="button">Log in</.link>
+        </p>
       <% else %>
-        <li>
-          <.link
-            href={~p"/users/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Register
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log in
-          </.link>
-        </li>
+        <a href="/matches" class="button">Start Matching</a>
       <% end %>
-    </ul>
-    <%= @inner_content %>
+    </div>
+
+    <%= @inner_content %> <!-- Move this line here -->
+
+    <section class="features">
+      <div class="feature">
+        <h3>Profile Creation</h3>
+        <p>Create a unique profile to showcase your interests and personality.</p>
+      </div>
+      <div class="feature">
+        <h3>Chat with Matches</h3>
+        <p>Engage in conversations and get to know your potential partners.</p>
+      </div>
+      <div class="feature">
+        <h3>Event Suggestions</h3>
+        <p>Discover events and activities to enjoy with your dates.</p>
+      </div>
+    </section>
+
+    <footer>
+    </footer>
   </body>
 </html>
