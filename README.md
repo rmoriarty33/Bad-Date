@@ -20,4 +20,4 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ## Members
 
   * Reece Brutsman
-
+  * Tyler Swain
