@@ -1,0 +1,26 @@
+<div class="matches-content">
+  <h2>Your Matches</h2>
+
+  <%= if @matches && @matches != [] do %>
+    <ul class="matches-list">
+      <%= for match <- @matches do %>
+        <li>
+          <div class="match-card">
+            <h3><%= match.name %></h3>
+            <p>Email: <%= match.email %></p>
+            <p>Location: <%= match.location %></p>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="no-matches">No matches available at the moment.</p>
+  <% end %>
+
+  <style>
+    .matches-content { /* styles */ }
+    .matches-list { /* styles */ }
+    .match-card { /* styles */ }
+    .no-matches { /* styles */ }
+  </style>
+</div>
