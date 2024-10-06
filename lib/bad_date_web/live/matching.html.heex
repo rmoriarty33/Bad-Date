@@ -1,0 +1,27 @@
+<div class="matching-content">
+  <h2>Start Matching</h2>
+
+  <%= if @available_users && @available_users != [] do %>
+    <ul class="users-list">
+      <%= for user <- @available_users do %>
+        <li>
+          <div class="user-card">
+            <h3><%= user.name %></h3>
+            <p>Age: <%= user.age %></p>
+            <p>Location: <%= user.location %></p>
+            <button phx-click="match_user" phx-value-user_id={user.id}>Match</button>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="no-users">No users available for matching right now.</p>
+  <% end %>
+
+  <style>
+    .matching-content { /* styles */ }
+    .users-list { /* styles */ }
+    .user-card { /* styles */ }
+    .no-users { /* styles */ }
+  </style>
+</div>

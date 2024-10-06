@@ -20,6 +20,9 @@
         background-color: #ff6b81;
         color: white;
         padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
       header h1 {
         margin: 0;
@@ -28,65 +31,41 @@
       nav ul {
         list-style-type: none;
         padding: 0;
+        margin: 0;
         display: flex;
-        justify-content: flex-end;
-      }
-      nav ul li {
-        margin-left: 20px;
+        gap: 20px;
+        align-items: center;
       }
       nav a {
         color: white;
         text-decoration: none;
         font-weight: bold;
       }
-      .hero {
-        background: url('/images/hero-background.jpg') no-repeat center center;
-        background-size: cover;
-        padding: 100px 20px;
-        text-align: center;
-        color: #333; /* Set text color to dark grey */
-      }
-      .hero h2 {
-        font-size: 3em;
-        margin: 0;
-        color: #333; /* Set the color for better visibility */
-      }
-      .hero p {
-        font-size: 1.2em;
-        color: #333; /* Set the color for better visibility */
-      }
-      .button {
-        background-color: #ff6b81;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        margin-top: 20px;
-        display: inline-block;
-      }
-      .features {
-        display: flex;
-        justify-content: space-around;
-        padding: 40px 20px;
-      }
-      .feature {
-        background: white;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        width: 30%;
-      }
       footer {
-        text-align: center;
-        padding: 10px;
         background-color: #ff6b81;
-        color: white;
-        position: relative;
+        height: 40px;
+        position: fixed;
         bottom: 0;
         width: 100%;
       }
+      .button {
+        background-color: white;
+        color: #ff6b81;
+        border: 2px solid white;
+        padding: 8px 15px;
+        border-radius: 5px;
+        text-transform: uppercase;
+        font-weight: bold;
+        cursor: pointer;
+        margin-left: 20px;
+      }
+      .button:hover {
+        background-color: #ff6b81;
+        color: white;
+      }
     </style>
   </head>
+
   <body>
     <header>
       <h1><a href="/" style="color: white; text-decoration: none;">BadDate</a></h1>
@@ -94,55 +73,43 @@
         <ul>
           <%= if @current_user do %>
             <li><%= @current_user.email %></li>
+              <li>
+              <.link href={~p"/matches"} class="button">Matches</.link>
+            </li>
+            <li>
+              <.link href={~p"/matching"} class="button">Matching</.link>
+            </li>
             <li>
               <.link href={~p"/users/settings"} class="hover:text-zinc-700">Settings</.link>
             </li>
             <li>
               <.link href={~p"/users/log_out"} method="delete" class="hover:text-zinc-700">Log out</.link>
             </li>
+            <!-- Matches and Matching buttons aligned to the right of login -->
+          
           <% else %>
+          <li>
+            <.link href={~p"/users/log_in"} class="button">Matches</.link>
+            </li>
+            <li>
+              <.link href={~p"/users/log_in"} class="button">Matching</.link>
+            </li>
             <li>
               <.link href={~p"/users/register"} class="hover:text-zinc-700">Register</.link>
             </li>
             <li>
               <.link href={~p"/users/log_in"} class="hover:text-zinc-700">Log in</.link>
             </li>
+            <!-- If not logged in, Matches and Matching buttons bring to login -->
+            
+            
           <% end %>
         </ul>
       </nav>
     </header>
 
-    <div class="hero">
-      <h2>Find Your Perfect Match!</h2>
-      <p>Connect with people and explore romantic possibilities.</p>
-      <%= if !@current_user do %>
-        <p>
-          <.link href={~p"/users/register"} class="button">Register</.link>
-          <.link href={~p"/users/log_in"} class="button">Log in</.link>
-        </p>
-      <% else %>
-        <a href="/matches" class="button">Start Matching</a>
-      <% end %>
-    </div>
+    <%= @inner_content %> <!-- This will render the content from other templates -->
 
-    <%= @inner_content %> <!-- Move this line here -->
-
-    <section class="features">
-      <div class="feature">
-        <h3>Profile Creation</h3>
-        <p>Create a unique profile to showcase your interests and personality.</p>
-      </div>
-      <div class="feature">
-        <h3>Chat with Matches</h3>
-        <p>Engage in conversations and get to know your potential partners.</p>
-      </div>
-      <div class="feature">
-        <h3>Event Suggestions</h3>
-        <p>Discover events and activities to enjoy with your dates.</p>
-      </div>
-    </section>
-
-    <footer>
-    </footer>
+    <footer></footer> <!-- Pink footer bar, no text -->
   </body>
 </html>

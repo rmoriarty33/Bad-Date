@@ -1,5 +1,95 @@
-<div class="px-4 py-10 sm:px-6 sm:py-28 lg:px-8 xl:px-28 xl:py-32">
-  <div class="mx-auto max-w-xl lg:mx-0">
-    <!-- Everything has been removed -->
+<div class="home-content">
+  <h2>Welcome to BadDate</h2>
+  <p class="intro-text">
+    BadDate is your platform to meet new people, find your match, and enjoy exciting experiences together.
+    Whether you're searching for a meaningful relationship or casual fun, you're in the right place.
+  </p>
+
+  <div class="features">
+    <h3>Features:</h3>
+    <ul>
+      <li>Create a personalized profile to showcase yourself</li>
+      <li>Chat with potential matches and get to know them better</li>
+      <li>Find unique date ideas and events</li>
+      <li>Receive personalized match suggestions based on your preferences</li>
+    </ul>
   </div>
+
+  <p class="cta">
+    Ready to begin your journey? Join now and start exploring the exciting world of BadDate.
+  </p>
+
+  <%= if !@current_user do %>
+    <p class="action-buttons">
+      <.link href={~p"/users/register"} class="button">Register Now</.link>
+      <.link href={~p"/users/log_in"} class="button">Log in</.link>
+    </p>
+  <% else %>
+    <p class="action-buttons">
+      <.link href={~p"/matches"} class="button">View Matches</.link>
+      <.link href={~p"/matching"} class="button">Start Matching</.link>
+    </p>
+  <% end %>
+
+  <style>
+    .home-content {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .home-content h2 {
+      font-size: 2.5em;
+      color: #ff6b81;
+    }
+    .home-content .intro-text {
+      font-size: 1.3em;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .home-content .features {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+    .home-content .features h3 {
+      font-size: 1.8em;
+      color: #ff6b81;
+      margin-bottom: 10px;
+    }
+    .home-content .features ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .home-content .features ul li {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+    .home-content .cta {
+      font-size: 1.4em;
+      margin-bottom: 20px;
+    }
+    .home-content .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .button {
+      background-color: #ff6b81;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #ff4661;
+    }
+  </style>
 </div>
