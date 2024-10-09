@@ -1,26 +1,63 @@
 <div class="matches-content">
-  <h2>Your Matches</h2>
+  <h2>Available Users</h2>
 
-  <%= if @matches && @matches != [] do %>
+  <!-- Check if users exist and are not empty -->
+  <%= if @users && @users != [] do %>
     <ul class="matches-list">
-      <%= for match <- @matches do %>
+      <!-- Iterate over each user and display their username -->
+      <%= for user <- @users do %>
         <li>
           <div class="match-card">
-            <h3><%= match.name %></h3>
-            <p>Email: <%= match.email %></p>
-            <p>Location: <%= match.location %></p>
+            <h3>
+              <a href={~p"/@#{user.username}"} class="user-link"><%= user.username %></a>
+            </h3> <!-- Make the username a clickable link to the user's profile -->
           </div>
         </li>
       <% end %>
     </ul>
   <% else %>
-    <p class="no-matches">No matches available at the moment.</p>
+    <!-- If no users are found, show a message -->
+    <p class="no-matches">No users available at the moment.</p>
   <% end %>
 
   <style>
-    .matches-content { /* styles */ }
-    .matches-list { /* styles */ }
-    .match-card { /* styles */ }
-    .no-matches { /* styles */ }
+    .matches-content {
+      padding: 20px;
+      background-color: #1D2125; /* Same as header/footer */
+      border-radius: 8px;
+      margin: 20px;
+    }
+
+    .matches-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .match-card {
+      background-color: #282C30; /* Darker card background */
+      border: 1px solid #ff6b81; /* Border color */
+      border-radius: 5px;
+      padding: 15px;
+      margin: 10px 0;
+      transition: background-color 0.3s ease;
+    }
+
+    .match-card:hover {
+      background-color: #3A3E42; /* Highlight on hover */
+    }
+
+    .user-link {
+      color: #ff6b81; /* Link color */
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .user-link:hover {
+      text-decoration: underline; /* Underline on hover */
+    }
+
+    .no-matches {
+      color: #A0A0A0; /* Lighter color for no matches message */
+    }
   </style>
 </div>
