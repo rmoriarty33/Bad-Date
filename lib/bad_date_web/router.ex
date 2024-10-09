@@ -45,7 +45,7 @@ defmodule BadDateWeb.Router do
     pipe_through :browser
 
     # Add this new route for user profiles
-    get "/user/:username", UserProfileController, :show
+    get "/@:username", UserProfileController, :show
   end
 
 
