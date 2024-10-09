@@ -5,12 +5,12 @@ defmodule BadDateWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <.header class="text-center">
+    <.header class="text-center mx-auto max-w-sm">
       Account Settings
       <:subtitle>Manage your account email address and password settings</:subtitle>
     </.header>
 
-    <div class="space-y-12 divide-y">
+    <div class="space-y-12 divide-y   text-white mx-auto max-w-sm">
       <div>
         <.simple_form
           for={@email_form}
@@ -18,7 +18,7 @@ defmodule BadDateWeb.UserSettingsLive do
           phx-submit="update_email"
           phx-change="validate_email"
         >
-          <.input field={@email_form[:email]} type="email" label="Email" required />
+          <.input field={@email_form[:email]} type="email"  label="Email" required />
           <.input
             field={@email_form[:current_password]}
             name="current_password"
@@ -42,7 +42,8 @@ defmodule BadDateWeb.UserSettingsLive do
           phx-change="validate_password"
           phx-submit="update_password"
           phx-trigger-action={@trigger_submit}
-        >
+
+          >
           <input
             name={@password_form[:email].name}
             type="hidden"
@@ -54,7 +55,8 @@ defmodule BadDateWeb.UserSettingsLive do
             field={@password_form[:password_confirmation]}
             type="password"
             label="Confirm new password"
-          />
+            class="bg-black"
+            />
           <.input
             field={@password_form[:current_password]}
             name="current_password"

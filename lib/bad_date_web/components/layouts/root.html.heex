@@ -1,115 +1,139 @@
 <!DOCTYPE html>
 <html lang="en" class="[scrollbar-gutter:stable]">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title suffix=" · BadDate">
-      <%= assigns[:page_title] || "BadDate" %>
-    </.live_title>
-    <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}></script>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-      }
-      header {
-        background-color: #ff6b81;
-        color: white;
-        padding: 10px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      header h1 {
-        margin: 0;
-        font-size: 2em;
-      }
-      nav ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        gap: 20px;
-        align-items: center;
-      }
-      nav a {
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-      }
-      footer {
-        background-color: #ff6b81;
-        height: 40px;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-      }
-      .button {
-        background-color: white;
-        color: #ff6b81;
-        border: 2px solid white;
-        padding: 8px 15px;
-        border-radius: 5px;
-        text-transform: uppercase;
-        font-weight: bold;
-        cursor: pointer;
-        margin-left: 20px;
-      }
-      .button:hover {
-        background-color: #ff6b81;
-        color: white;
-      }
-    </style>
-  </head>
 
-  <body>
-    <header>
-      <h1><a href="/" style="color: white; text-decoration: none;">BadDate</a></h1>
-      <nav>
-        <ul>
-          <%= if @current_user do %>
-            <li><%= @current_user.email %></li>
-              <li>
-              <.link href={~p"/matches"} class="button">Matches</.link>
-            </li>
-            <li>
-              <.link href={~p"/matching"} class="button">Matching</.link>
-            </li>
-            <li>
-              <.link href={~p"/users/settings"} class="hover:text-zinc-700">Settings</.link>
-            </li>
-            <li>
-              <.link href={~p"/users/log_out"} method="delete" class="hover:text-zinc-700">Log out</.link>
-            </li>
-            <!-- Matches and Matching buttons aligned to the right of login -->
-          
-          <% else %>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="csrf-token" content={get_csrf_token()} />
+  <.live_title suffix=" · BadDate">
+    <%= assigns[:page_title] || "BadDate" %>
+  </.live_title>
+  <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+  <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #161A1D;
+      color: white;
+    }
+
+    header {
+      background-color: #1D2125;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+      font-weight: 800;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer {
+      background-color: #1D2125;
+      height: 40px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .button {
+      background-color: #ff6b81;
+      color: white;
+      border: 2px solid #ff6b81;
+      padding: 8px 15px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 20px;
+    }
+
+    .button:hover {
+      background-color: #000;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1><a href="/" style="color: white; text-decoration: none;">BadDate</a></h1>
+    <nav>
+      <ul>
+        <%= if @current_user do %>
           <li>
-            <.link href={~p"/users/log_in"} class="button">Matches</.link>
+            <h3>Hello <%= @current_user.username %>!</h3>
+          </li>
+           
+          <!--
+          <li>
+            <.link href={~p"/matches"} class="button">Matches</.link>
+          </li>
+          <li>
+            <.link href={~p"/matching"} class="button">Matching</.link>
+          </li>
+        -->
+          <li>
+            <.link href={"/user/#{@current_user.username}"} class="button">My Profile</.link>
+          </li>
+          <li>
+            <.link href={~p"/users/settings"} class="hover:text-zinc-700">Settings</.link>
+          </li>
+          <li>
+            <.link href={~p"/users/log_out"} method="delete" class="hover:text-zinc-700">Log out</.link>
+
+          </li>
+
+          <!-- Matches and Matching buttons aligned to the right of login -->
+
+          <% else %>
+          <!--
+            <li>
+              <.link href={~p"/users/log_in"} class="button">Matches</.link>
             </li>
             <li>
               <.link href={~p"/users/log_in"} class="button">Matching</.link>
             </li>
-            <li>
+          -->
+          <li>
+            <.link href={~p"/users/log_in"} class="button">Log in</.link>
+          </li>  
+          <li>
               <.link href={~p"/users/register"} class="hover:text-zinc-700">Register</.link>
             </li>
-            <li>
-              <.link href={~p"/users/log_in"} class="hover:text-zinc-700">Log in</.link>
-            </li>
+            
             <!-- If not logged in, Matches and Matching buttons bring to login -->
-            
-            
-          <% end %>
-        </ul>
-      </nav>
-    </header>
 
-    <%= @inner_content %> <!-- This will render the content from other templates -->
+
+            <% end %>
+      </ul>
+    </nav>
+  </header>
+
+  <%= @inner_content %> <!-- This will render the content from other templates -->
 
     <footer></footer> <!-- Pink footer bar, no text -->
-  </body>
+</body>
+
 </html>

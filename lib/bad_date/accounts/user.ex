@@ -8,6 +8,7 @@ defmodule BadDate.Accounts.User do
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
+    field :username, :string    
 
     timestamps(type: :utc_datetime)
   end
@@ -37,8 +38,11 @@ defmodule BadDate.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :username,  :password])
+    |> update_change(:username, &String.downcase/1)
     |> validate_email(opts)
+    |> validate_required([:username])
+    |> unique_constraint(:username)
     |> validate_password(opts)
   end
 

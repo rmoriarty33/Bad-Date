@@ -17,7 +17,8 @@ defmodule BadDateWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import BadDateWeb.Gettext
+  use Gettext, backend: BaddateWeb.Gettext
+
 
   @doc """
   Renders a modal.

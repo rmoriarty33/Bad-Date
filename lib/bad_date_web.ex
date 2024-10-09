@@ -49,6 +49,28 @@ defmodule BadDateWeb do
     end
   end
 
+  def view do
+      quote do
+        use Phoenix.View,
+          root: "lib/bad_date_web/templates",
+          namespace: BadDateWeb
+
+        # Import convenience functions from controllers
+        import Phoenix.Controller,
+          only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
+
+        # Use all HTML functionality (forms, tags, etc)
+        import Phoenix.HTML
+        import Phoenix.HTML.Form
+        use PhoenixHTMLHelpers
+
+
+        import BadDateWeb.ErrorHelpers
+        import BadDateWeb.Gettext
+        alias BadDateWeb.Router.Helpers, as: Routes
+      end
+    end
+
   def live_view do
     quote do
       use Phoenix.LiveView,

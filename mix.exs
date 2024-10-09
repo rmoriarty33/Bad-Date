@@ -33,7 +33,10 @@ defmodule BadDate.MixProject do
   defp deps do
     [
       {:bcrypt_elixir, "~> 3.0"},
+      {:phoenix_view, "~> 2.0"},
       {:phoenix, "~> 1.7.14"},
+      {:phoenix_template, "~> 1.0"},
+      {:phoenix_html_helpers, "~> 1.0"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
       {:ecto_sqlite3, ">= 0.0.0"},
