@@ -5,11 +5,21 @@ defmodule BadDateWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <.header class="text-center mx-auto max-w-sm">
-      Account Settings
-      <:subtitle>Manage your account email address and password settings</:subtitle>
-    </.header>
 
+    <.header class="text-center mx-auto max-w-sm">
+      <h1>Account Settings</h1>
+      <h2>Manage your account email address and password settings</h2>
+      <br />
+      <h2>Edit your image & profile at :  <.link navigate='https://gravatar.com/' class="font-semibold text-rose-300 hover:underline">
+            Gravatar
+          </.link></h2>
+    </.header>
+    <style>
+      .input{
+        color: white;
+        background-color:black;
+      }
+    </style>
     <div class="space-y-12 divide-y   text-white mx-auto max-w-sm">
       <div>
         <.simple_form
