@@ -4,11 +4,11 @@ defmodule BadDateWeb.UserLoginLive do
   def render(assigns) do
     ~H"""
     <div class="mx-auto max-w-sm">
-      <.header class="text-center">
+      <.header class="text-center text-white">
         Log in to account
-        <:subtitle>
+        <:subtitle class="text-white">
           Don't have an account?
-          <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline">
+          <.link navigate={~p"/users/register"} class="font-semibold text-rose-300 hover:underline">
             Sign up
           </.link>
           for an account now.
@@ -21,7 +21,7 @@ defmodule BadDateWeb.UserLoginLive do
 
         <:actions>
           <.input field={@form[:remember_me]} type="checkbox" label="Keep me logged in" />
-          <.link href={~p"/users/reset_password"} class="text-sm font-semibold">
+          <.link href={~p"/users/reset_password"} class="text-sm  font-semibold">
             Forgot your password?
           </.link>
         </:actions>

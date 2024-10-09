@@ -42,6 +42,14 @@ defmodule BadDateWeb.Router do
   end
 
   scope "/", BadDateWeb do
+    pipe_through :browser
+
+    # Add this new route for user profiles
+    get "/user/:username", UserProfileController, :show
+  end
+
+
+  scope "/", BadDateWeb do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,

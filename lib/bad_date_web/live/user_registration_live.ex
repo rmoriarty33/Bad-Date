@@ -11,7 +11,7 @@ defmodule BadDateWeb.UserRegistrationLive do
         Register for an account
         <:subtitle>
           Already registered?
-          <.link navigate={~p"/users/log_in"} class="font-semibold text-brand hover:underline">
+          <.link navigate={~p"/users/log_in"} class="font-semibold text-rose-300 hover:underline">
             Log in
           </.link>
           to your account now.
@@ -33,6 +33,8 @@ defmodule BadDateWeb.UserRegistrationLive do
 
         <.input field={@form[:email]} type="email" label="Email" required />
         <.input field={@form[:password]} type="password" label="Password" required />
+        <.input field={@form[:username]} type="text" label="Username" required />
+
 
         <:actions>
           <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
@@ -54,26 +56,27 @@ defmodule BadDateWeb.UserRegistrationLive do
   end
 
   def handle_event("save", %{"user" => user_params}, socket) do
-    case Accounts.register_user(user_params) do
-      {:ok, user} ->
-        {:ok, _} =
-          Accounts.deliver_user_confirmation_instructions(
-            user,
-            &url(~p"/users/confirm/#{&1}")
-          )
+      case Accounts.register_user(user_params) do
+        {:ok, user} ->
+          {:ok, _} =
+            Accounts.deliver_user_confirmation_instructions(
+              user,
+              &url(~p"/users/confirm/#{&1}")
+            )
 
-        changeset = Accounts.change_user_registration(user)
-        {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset)}
+          changeset = Accounts.change_user_registration(user)
+          {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, socket |> assign(check_errors: true) |> assign_form(changeset)}
+        {:error, %Ecto.Changeset{} = changeset} ->
+          {:noreply, socket |> assign(check_errors: true) |> assign_form(changeset)}
+      end
     end
-  end
 
-  def handle_event("validate", %{"user" => user_params}, socket) do
-    changeset = Accounts.change_user_registration(%User{}, user_params)
-    {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}
-  end
+    def handle_event("validate", %{"user" => user_params}, socket) do
+      # Validate the user_params including the username
+      changeset = Accounts.change_user_registration(%User{}, user_params)
+      {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}
+    end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do
     form = to_form(changeset, as: "user")
