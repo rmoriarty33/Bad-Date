@@ -28,7 +28,13 @@ defmodule BadDateWeb.UserProfileHTML do
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
         const pfpElement = document.getElementById("gravatarpfp");
+        const interestsElement = document.getElementById("interests");
+        const email = '<%= @user.email %>';
+        //profile pic
         pfpElement.src = getGravatarUrl('<%= @user.email %>');
+        
+        //fetch gravatar user profile to get interests
+        fetchGravatarProfile(email);
 
         console.log(getGravatarUrl('reecexavier@gmail.com'));
         // Function to generate the Gravatar URL from email
@@ -51,6 +57,31 @@ defmodule BadDateWeb.UserProfileHTML do
             // Set the Gravatar image source
             document.getElementById('gravatarImage').src = gravatarUrl;
         }
+
+        async function fetchGravatarProfile(email) {
+        const hash = CryptoJS.MD5(email.trim().toLowerCase()).toString();
+        const url = `https://www.gravatar.com/${hash}.json`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const data = await response.json();
+            const interests = data.entry[0]?.interests || []; // Adjust based on the actual API response structure
+            displayInterests(interests);
+        } catch (error) {
+            console.error('Error fetching Gravatar profile:', error);
+            interestsElement.innerHTML = 'Failed to load interests.';
+        }
+    }
+
+    function displayInterests(interests) {
+        if (interests.length > 0) {
+            interestsElement.innerHTML = interests.map(interest => `<li>${interest}</li>`).join('');
+        } else {
+            interestsElement.innerHTML = '<li>No interests found.</li>';
+        }
+    }
     </script>
 
     """
