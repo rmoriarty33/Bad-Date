@@ -87,4 +87,9 @@ defmodule BadDateWeb.Router do
   # scope "/api", BadDateWeb do
   #   pipe_through :api
   # end
+  scope "/api", BadDateWeb do
+  pipe_through :api
+  get "/gravatar", GravatarController, :fetch_profile
+end
+
 end
