@@ -3,9 +3,30 @@ defmodule BadDateWeb.MatchesLive do
   alias BadDate.Repo
   alias BadDate.Accounts.User
 
+  @interests_list [
+    "Photography", "Traveling", "Cooking", "Hiking", "Reading", "Music", "Gaming", "Cycling",
+          "Running", "Swimming", "Writing", "Painting", "Drawing", "Singing", "Dancing",
+          "Knitting", "Coding", "Blogging", "Yoga", "Meditation", "Martial Arts", "Fitness",
+          "Weightlifting", "Surfing", "Fishing", "Skiing", "Snowboarding", "Camping", "Gardening",
+          "Bird Watching", "Astronomy", "Baking", "Woodworking", "Leathercraft", "Jewelry Making",
+          "Pottery", "Calligraphy", "Graphic Design", "Interior Design", "Fashion", "Photography",
+          "Film Making", "Podcasting", "Public Speaking", "Magic Tricks", "Astrology", "Karaoke",
+          "Volunteering", "Chess", "Board Games", "Puzzles", "Card Games", "Video Editing",
+          "Beatboxing", "Songwriting", "Stand-up Comedy", "Storytelling", "Historical Research",
+          "Genealogy", "Language Learning", "Debating", "Political Activism", "Animal Care",
+          "Dog Training", "Robotics", "Electronics", "DIY Projects", "Home Improvement",
+          "Makeup Artistry", "Nail Art", "Hairstyling", "Perfume Making", "Wine Tasting",
+          "Beer Brewing", "Coffee Brewing", "Mixology", "Bartending", "Cryptocurrency Trading",
+          "Stock Trading", "Real Estate Investing", "Sailing", "Scuba Diving", "Snorkeling",
+          "Rock Climbing", "Skydiving", "Bungee Jumping", "Archery", "Hunting", "Airsoft",
+          "Paintball", "Golf", "Tennis", "Badminton", "Table Tennis", "Soccer", "Basketball",
+          "Baseball", "Football", "Rugby", "Cricket", "Lacrosse", "Skateboarding", "Rollerblading",
+          "Parkour", "Frisbee", "Ultimate Frisbee"
+    # Add more interests as needed
+  ]
+
   def mount(_params, session, socket) do
-    current_user_id = session["user_id"]
-    IO.inspect(current_user_id, label: "Current User ID")
+    current_user_id = Map.get(session, "user_id")
 
     all_users = Repo.all(User)
 
@@ -17,8 +38,20 @@ defmodule BadDateWeb.MatchesLive do
         all_users
       end
 
-    {:ok, assign(socket, users: users, load_count: 4)}  # Initial load count set to 4
+    users_with_interests = Enum.map(users, fn user ->
+      interests = get_random_interests(:rand.uniform(5)) # Get 3 random interests
+      Map.put(user, :interests, interests) # Add interests to the user struct
+    end)
+
+    {:ok, assign(socket, users: users_with_interests, load_count: 4)}
   end
+
+  defp get_random_interests(count) do
+    @interests_list
+    |> Enum.shuffle() # Shuffle the interests list
+    |> Enum.take(count) # Take the specified count
+  end
+
 
   def render(assigns) do
     ~H"""
@@ -31,13 +64,21 @@ defmodule BadDateWeb.MatchesLive do
             <li class="match-item">
               <div class="match-card">
                 <div class="profile-container"> <!-- New container for profile picture -->
-                  <img src="/images/temp_profile.png" alt="Temporary profile picture" class="profile-picture" /> <!-- Temporary profile picture -->
+                <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000" alt="Temporary profile picture" class="profile-picture" />
                 </div>
-                <h3 class="username">@<%= user.username %></h3> <!-- Username below the picture -->
+                <h4>Tags</h4>
+                  <h3 class="username">@<%= user.username %></h3> <!-- Username below the picture -->
+                    <h4>Tags</h4>
+                    <div class="interests"></div>
+                    <div class="interests">
+                  <%= for interest <- user.interests do %> <!-- Use interests from the user struct -->
+                    <div class="interest"><%= interest %></div>
+                  <% end %>
+                </div>
+                    <div class="button-group"> <!-- Button group for buttons -->
+                    <button phx-click="send_message" phx-value-email="{user.email}" class="message-button"><%= user.email %></button>
+                    <button phx-click="view_profile" phx-value-username={user.username} class="view-profile-button">View Profile</button> <!-- New button to view profile -->
 
-                <div class="button-group"> <!-- Button group for buttons -->
-                  <button class="message-button">Message</button> <!-- Placeholder button -->
-                  <button phx-click="view_profile" phx-value-username={user.username} class="view-profile-button">View Profile</button> <!-- New button to view profile -->
                 </div>
 
               </div>
@@ -53,6 +94,48 @@ defmodule BadDateWeb.MatchesLive do
       <% end %>
 
       <style>
+      .interests {
+        display: flex; /* Add this line */
+        flex-wrap: wrap; /* Allows the buttons to wrap */
+        justify-content: center; /* Centers the buttons */
+        max-width: 80%; /* Restrict the container width */
+        margin: 0 auto; /* Center the container itself */
+      }
+
+      .interest {
+        background-color: #ff6b81;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px; /* Adjusted padding for the buttons */
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 1em; /* Increased font size for the buttons */
+        max-width: 150px; /* Limit the button width */
+        width: auto; /* Allow buttons to size naturally */
+        text-align: center; /* Center the button text */
+        margin: 0 5px;
+
+      }
+
+      .interest:hover { /* Corrected class name */
+        background-color: #ff4c61; /* Darker on hover */
+      }
+
+      .match-card {
+        background-color: #282C30;
+        border: 1px solid #ff6b81;
+        border-radius: 5px;
+        padding: 20px; /* Increased padding for larger cards */
+        transition: background-color 0.3s ease;
+        text-align: center; /* Center content in the card */
+        /* Remove fixed height to allow for dynamic content */
+        display: flex; /* Enable flexbox layout */
+        flex-direction: column; /* Arrange items vertically */
+        justify-content: flex-start; /* Align items to the top */
+      }
+
+
         .matches-content {
           padding: 20px;
           background-color: #1D2125;
@@ -82,18 +165,7 @@ defmodule BadDateWeb.MatchesLive do
           margin: 10px; /* Space between items */
         }
 
-        .match-card {
-          background-color: #282C30;
-          border: 1px solid #ff6b81;
-          border-radius: 5px;
-          padding: 20px; /* Increased padding for larger cards */
-          transition: background-color 0.3s ease;
-          text-align: center; /* Center content in the card */
-          height: 450px; /* Set a fixed height for consistency and taller cards */
-          display: flex; /* Enable flexbox layout */
-          flex-direction: column; /* Arrange items vertically */
-          justify-content: flex-start; /* Align items to the top */
-        }
+
 
         .match-card:hover {
           background-color: #3A3E42;

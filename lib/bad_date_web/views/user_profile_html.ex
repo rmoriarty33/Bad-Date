@@ -10,6 +10,8 @@ defmodule BadDateWeb.UserProfileHTML do
     <img id='gravatarpfp'/>
     <br />
     <h1 id="username">@<%= @user.username %></h1>
+    <br />
+    <button class="message-button"><%= @user.email %></button>
 
     </div>
     <style>
@@ -32,7 +34,7 @@ defmodule BadDateWeb.UserProfileHTML do
         const email = '<%= @user.email %>';
         //profile pic
         pfpElement.src = getGravatarUrl('<%= @user.email %>');
-        
+
         //fetch gravatar user profile to get interests
         fetchGravatarProfile(email);
 
@@ -83,7 +85,31 @@ defmodule BadDateWeb.UserProfileHTML do
         }
     }
     </script>
+    <style>
+      .message-button,
+        .view-profile-button {
+          background-color: #ff6b81;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          padding: 10px 15px; /* Increased padding for the buttons */
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          font-size: 1em; /* Increased font size for the buttons */
+          flex: 1; /* Allow buttons to share space evenly */
+          margin: 0 5px; /* Space between buttons */
+          display: block;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+        }
 
+        .message-button:hover,
+        .view-profile-button:hover {
+          background-color: #ff4c61; /* Darker on hover */
+        }
+    </style>
     """
   end
 
